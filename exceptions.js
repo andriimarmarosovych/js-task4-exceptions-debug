@@ -81,6 +81,36 @@ function calcRectangleArea(width, height) {
 // console.log(showMonthName(5));  May
 // console.log(showMonthName(14)); MonthException Incorrect month number
 
+class MonthException extends Error {
+    constructor(message) {
+        super(message);
+        this.name = 'MonthException';
+    }
+}
+
+function showMonth(month) {
+    const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+    ];
+
+    if (month < 1 || month > 12 ) {
+        throw new MonthException('Incorrect month number');
+    }
+
+    return monthName[month - 1];
+}
+
 // 5. Реалізуйте функцію showUser(id), яка приймає параметром користувацьке id і повертає об’єкт, який містить значення переданої id. 
 // Також функція викидає помилку у разі якщо введено від’ємне id.
 // Реалізуйте функцію showUsers(ids), яка приймає параметром масив користувацьких айді ids, перевіряє з використанням функції showUser() кожен елемент масиву ids на коректність,
@@ -98,5 +128,13 @@ function showUser(id) {
 }
 
 function showUsers(ids) {
-    
+    let validIds = [];
+    for (let i = 0; i < ids.length; i++) {
+        try {
+            validIds.push(showUser(ids[i]));
+        } catch (error) {
+            console.log(error.message)
+        }
+    }
+    return validIds;
 }
